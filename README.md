@@ -10,5 +10,5 @@ either download model using `download_model.sh` or put model at this directory.
 then run the demo
 
 ```
-GRADIO_SERVER_PORT=8888 python3 demo.py
+GRADIO_SERVER_NAME=0.0.0.0 GRADIO_SERVER_PORT=8888 python3 demo.py
 ```
