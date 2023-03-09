@@ -131,16 +131,35 @@ def question_answer(
     return str(results)
     
     
-demo = gr.Interface(
-    fn=question_answer,
-    inputs = [
-        "text",
-        gr.Dropdown(all_relations, label="relation", info="no info"),
-        gr.Number(value=1, precision=0),
-        gr.Dropdown(all_decode_methods, label="decode method", info="no info yet", value="greedy")
-    ],
-    outputs="text"
-)
+with gr.Blocks() as demo:
+    with gr.Row():
+        with gr.Column(scale=1.5, min_width=600):
+            head = gr.Textbox(label="head")
+            rel = gr.Dropdown(
+                all_relations,
+                label="relations",
+                info="",
+            )
+            num_gen = gr.Number(
+                value=1, precision=0, label="number generate"
+            )
+            method = gr.Dropdown(
+                all_decode_methods,
+                label="decode method",
+                info="",
+                value="greedy",
+            )
+            gen_btn = gr.Button("Generate")
+
+        with gr.Column(scale=1, min_width=400):
+            output = gr.Textbox(label="Output")
+
+    inputs = [head, rel, num_gen, method]
+
+    # binding events
+    head.submit(fn=question_answer, inputs=inputs, outputs=output)
+    gen_btn.click(fn=question_answer, inputs=inputs, outputs=output)
+
 
 if __name__ == "__main__":
     demo.launch()
